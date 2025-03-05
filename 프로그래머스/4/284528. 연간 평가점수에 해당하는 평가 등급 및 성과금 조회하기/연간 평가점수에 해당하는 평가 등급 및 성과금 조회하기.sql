@@ -1,0 +1,28 @@
+-- 코드를 작성해주세요
+#case를 사용해서 푸는 문제네 ㅇㅋ
+WITH GRADETABLE AS(
+    SELECT
+        EMP_NO,
+        CASE
+            WHEN SUM(SCORE) >= 192 THEN 'S'
+            WHEN SUM(SCORE) >= 180 THEN 'A'
+            WHEN SUM(SCORE) >= 160 THEN 'B'
+            ELSE 'C'
+        END AS GRADE
+    FROM HR_GRADE
+    GROUP BY EMP_NO
+)
+
+# SELECT * FROM GRADETABLE;
+
+
+SELECT GT.EMP_NO, HE.EMP_NAME, GT.GRADE,
+    CASE
+        WHEN GT.GRADE = 'S' THEN HE.SAL * 0.2
+        WHEN GT.GRADE = 'A' THEN HE.SAL * 0.15
+        WHEN GT.GRADE = 'B' THEN HE.SAL * 0.1
+        WHEN GT.GRADE = 'C' THEN HE.SAL * 0
+     END AS BONUS
+    FROM GRADETABLE AS GT
+    JOIN HR_EMPLOYEES AS HE ON GT.EMP_NO = HE.EMP_NO
+    ORDER BY EMP_NO;
